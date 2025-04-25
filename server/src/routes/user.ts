@@ -1,0 +1,26 @@
+import { Router } from "express";
+
+import { prisma } from "../db/client";
+import { authHandler } from "../middleware/auth";
+
+const router: Router = Router();
+
+router.get("/", authHandler, async (req, res) => {
+  const { email } = req.body;
+  const user = await prisma.user.findFirst({ where: { email } });
+  res.json(user);
+});
+
+router.post("/", async (req, res) => {
+  const { email } = req.body;
+  const user = await prisma.user.create({ data: { email } });
+  res.json(user);
+});
+
+router.delete("/:id", authHandler, async (req, res) => {
+  const userId = req.params.id;
+  await prisma.user.deleteMany({ where: { id: userId } });
+  res.status(204).end();
+});
+
+export default router;

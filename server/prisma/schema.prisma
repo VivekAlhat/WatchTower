@@ -26,7 +26,7 @@ model Monitor {
   userId String
   url String
   interval Int
-  lastPingedAt DateTime
+  lastPingedAt DateTime?
   nextPingAt DateTime
   createdAt DateTime @default(now())
   user User @relation(fields: [userId], references: [id])
