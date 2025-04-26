@@ -8,14 +8,14 @@ const router: Router = Router();
 router.get("/", authHandler, async (req, res) => {
   const userId = (req as any).user.id;
   const monitors = await prisma.monitor.findMany({ where: { userId } });
-  res.json(monitors);
+  res.json({ monitors });
 });
 
 router.post("/", authHandler, async (req, res) => {
   const { url, interval } = req.body;
   const userId = (req as any).user.id;
 
-  const nextPingAt = new Date(Date.now() + interval * 1000);
+  const nextPingAt = new Date(Date.now() + interval * 60 * 1000);
   const monitor = await prisma.monitor.create({
     data: {
       userId,
@@ -25,7 +25,7 @@ router.post("/", authHandler, async (req, res) => {
     },
   });
 
-  res.json(monitor);
+  res.json({ monitor });
 });
 
 router.put("/:id", authHandler, async (req, res) => {
@@ -33,12 +33,15 @@ router.put("/:id", authHandler, async (req, res) => {
   const monitorId = req.params.id;
   const { url, interval } = req.body;
 
+  const nextPingAt = new Date(Date.now() + interval * 60 * 1000);
+  const createdAt = new Date(Date.now());
+
   const monitor = await prisma.monitor.update({
     where: { id: monitorId, userId },
-    data: { url, interval },
+    data: { url, interval, nextPingAt, createdAt },
   });
 
-  res.json(monitor);
+  res.json({ monitor });
 });
 
 router.delete("/:id", authHandler, async (req, res) => {

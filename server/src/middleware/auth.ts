@@ -18,7 +18,6 @@ export const authHandler = (
     (req as any).user = decoded;
     next();
   } catch (err) {
-    console.error(err);
     res.status(403).json({ message: "Forbidden" });
   }
 };

@@ -1,6 +1,10 @@
+import cors from "cors";
 import dotenv from "dotenv";
+import helmet from "helmet";
+import morgan from "morgan";
 import express from "express";
 
+import jwtRouter from "./routes/jwt";
 import userRouter from "./routes/user";
 import monitorRouter from "./routes/monitor";
 import { errorHandler } from "./middleware/error";
@@ -11,9 +15,14 @@ dotenv.config();
 const port = process.env.PORT! || 8000;
 const app = express();
 
+app.use(cors());
+app.use(helmet());
+app.use(morgan("tiny"));
+
 app.use(express.json());
-app.use("/api/users", userRouter);
-app.use("/api/monitors", monitorRouter);
+app.use("/api/user", userRouter);
+app.use("/api/monitor", monitorRouter);
+app.use("/api/jwt", jwtRouter);
 app.use(errorHandler);
 
 app.get("/", (_, res) => {
