@@ -34,11 +34,11 @@ router.put("/:id", authHandler, async (req, res) => {
   const { url, interval } = req.body;
 
   const nextPingAt = new Date(Date.now() + interval * 60 * 1000);
-  const createdAt = new Date(Date.now());
+  const updatedAt = new Date(Date.now());
 
   const monitor = await prisma.monitor.update({
     where: { id: monitorId, userId },
-    data: { url, interval, nextPingAt, createdAt },
+    data: { url, interval, nextPingAt, updatedAt },
   });
 
   res.json({ monitor });

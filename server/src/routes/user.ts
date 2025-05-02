@@ -13,8 +13,15 @@ router.get("/:id", authHandler, async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { email } = req.body;
-  const user = await prisma.user.create({ data: { email } });
-  res.json({ user });
+
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+
+  if (existingUser) {
+    res.json({ user: existingUser });
+  } else {
+    const user = await prisma.user.create({ data: { email } });
+    res.json({ user });
+  }
 });
 
 router.delete("/:id", authHandler, async (req, res) => {
