@@ -1,6 +1,6 @@
-import AuthButton from "@/app/components/AuthButton";
+import AuthButton from "@/components/auth-button";
 
-export default function Home() {
+export default function Login() {
   return (
     <div className="grid place-content-center h-screen text-center font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-2">
