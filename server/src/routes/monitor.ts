@@ -7,8 +7,16 @@ const router: Router = Router();
 
 router.get("/", authHandler, async (req, res) => {
   const userId = (req as any).user.id;
-  const monitors = await prisma.monitor.findMany({ where: { userId } });
-  res.json({ monitors });
+  const monitors = await prisma.monitor.findMany({
+    where: { userId },
+    include: {
+      logs: {
+        orderBy: { checkedAt: "desc" },
+        take: 1,
+      },
+    },
+  });
+  res.json(monitors);
 });
 
 router.post("/", authHandler, async (req, res) => {
@@ -25,7 +33,7 @@ router.post("/", authHandler, async (req, res) => {
     },
   });
 
-  res.json({ monitor });
+  res.json(monitor);
 });
 
 router.put("/:id", authHandler, async (req, res) => {
@@ -41,7 +49,7 @@ router.put("/:id", authHandler, async (req, res) => {
     data: { url, interval, nextPingAt, updatedAt },
   });
 
-  res.json({ monitor });
+  res.json(monitor);
 });
 
 router.delete("/:id", authHandler, async (req, res) => {

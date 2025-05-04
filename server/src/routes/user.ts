@@ -8,7 +8,7 @@ const router: Router = Router();
 router.get("/:id", authHandler, async (req, res) => {
   const userId = req.params.id;
   const user = await prisma.user.findFirst({ where: { id: userId } });
-  res.json({ user });
+  res.json(user);
 });
 
 router.post("/", async (req, res) => {
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
     res.json({ user: existingUser });
   } else {
     const user = await prisma.user.create({ data: { email } });
-    res.json({ user });
+    res.json(user);
   }
 });
 
