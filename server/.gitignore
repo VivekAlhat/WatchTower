@@ -4,3 +4,6 @@ node_modules
 
 # Prisma specific
 generated/
+
+# Dist folder
+dist/
