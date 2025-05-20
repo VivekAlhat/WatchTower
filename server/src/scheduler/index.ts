@@ -1,7 +1,7 @@
 import { prisma } from "../db/prisma";
 import { monitorQueue } from "../jobs/queues/index";
 
-const POLL_INTERVAL = Number(process.env.SCHEDULER_POLL_INTERVAL) * 1000;
+const POLL_INTERVAL = Number(process.env?.SCHEDULER_POLL_INTERVAL || 60) * 1000;
 
 /**
  * This function checks monitors that are due for pinging.
@@ -30,4 +30,4 @@ async function enqueueDueMonitors() {
 
 setInterval(enqueueDueMonitors, POLL_INTERVAL);
 
-console.log("[Scheduler] Running every 60 seconds...");
+console.log("[Scheduler] Running scheduler for due monitors...");

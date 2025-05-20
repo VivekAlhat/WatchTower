@@ -1,16 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
 import moment from "moment";
 
 import PingEffect from "./ping-effect";
 import getApiClient from "@/lib/api-client";
-
-interface IMonitor {
-  id: string;
-  url: string;
-  lastPingedAt: Date;
-  logs: { isUp: boolean }[];
-}
+import NewMonitor from "./new-monitor";
 
 export default async function MonitoringSection() {
   const apiClient = await getApiClient();
@@ -21,10 +13,7 @@ export default async function MonitoringSection() {
     <section className="px-5 pt-2.5">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold mb-4">Your Monitors</h2>
-        <Button className="inline-flex items-center justify-center gap-2 cursor-pointer bg-gray-100 hover:bg-gray-200 border border-gray-300 text-black">
-          <PlusIcon />
-          <span>New Monitor</span>
-        </Button>
+        <NewMonitor />
       </div>
 
       <div>
